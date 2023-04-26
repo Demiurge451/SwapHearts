@@ -1,50 +1,35 @@
+# coding: utf-8
+
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
+import os
+# import site
+# site.addsitedir('/usr/local/lib/python2.7/site-packages')
+from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 
-class MyWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+app = QtWidgets.QApplication(['', '--no-sandbox'])
+view = QtWebEngineWidgets.QWebEngineView()
 
-        self.initUI()
+# view.settings().setAttribute(QtWebEng.QWebSettings.LocalContentCanAccessRemoteUrls, True)
 
-    def initUI(self):
-        grid = QGridLayout()
+# f = open('html/test.html', 'r')
+#
+# html = f.read()
+# f.close()
 
-        button_labels = [
-            ['1', '1', '1', '2'],
-            ['3', '2', '2', '3']
-        ]
+# print(os.path.abspath(__file__))
+# path = os.path.abspath(__file__)
+# print()
 
-        for row, row_labels in enumerate(button_labels):
-            for col, label in enumerate(row_labels):
-                button = QPushButton(label)
-                button.setFixedSize(50, 50)
-                button.clicked.connect(lambda checked, row=row, col=col: self.onButtonClicked(row, col))
-                grid.addWidget(button, row, col)
+# view.setHtml(html)
+# view.setHtml(html, baseUrl=QtCore.QUrl().fromLocalFile(os.path.split(os.path.abspath(__file__))))
 
-        self.current_button = None
+# view.setUrl()
+# view.set
+# view.load(QtCore.QUrl('http://'))
 
-        self.setLayout(grid)
-        self.setWindowTitle('Grid Example')
-        self.show()
+view.load(QtCore.QUrl().fromLocalFile(
+    os.path.split(os.path.abspath(__file__))[0]+r'\html\test.html'
+))
 
-    def onButtonClicked(self, row, col):
-        if self.current_button is None:
-            # First button clicked
-            self.current_button = (row, col, self.sender())
-        else:
-            # Second button clicked - swap buttons if labels match
-            if self.current_button[2].text() != self.sender().text():
-                grid = self.layout()
-                pos1 = grid.indexOf(self.current_button[2])
-                pos2 = grid.indexOf(self.sender())
-                row1, col1, _, _ = grid.getItemPosition(pos1)
-                row2, col2, _, _ = grid.getItemPosition(pos2)
-                grid.addWidget(self.current_button[2], row2, col2)
-                grid.addWidget(self.sender(), row1, col1)
-            self.current_button = None
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    widget = MyWidget()
-    sys.exit(app.exec_())
+view.show()
+sys.exit(app.exec_())

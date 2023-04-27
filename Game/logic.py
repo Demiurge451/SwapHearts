@@ -1,16 +1,14 @@
 from random import randint
 
+from PyQt5 import QtCore
+
 
 class Game:
+
     def __init__(self):
-        self.score_values = {3: 170, 4: 240, 5: 310, 6: 380, 7: 450, 8: 520}
+        self.__score_values = {3: 170, 4: 240, 5: 310, 6: 380, 7: 450, 8: 520}
         self.arr = [[randint(1, 6) for j in range(8)] for i in range(8)]
         self.__update_arr()
-        self._score = 0
-
-    @property
-    def score(self):
-        return self._score
 
     @property
     def arr(self):
@@ -20,7 +18,7 @@ class Game:
     def arr(self, value):
         self._arr = value
 
-    def swap_heart(self, row1: int, col1: int, row2: int, col2: int) -> bool:
+    def swap_heart(self, row1: int, col1: int, row2: int, col2: int) -> int:
         """swap elements of array if they placed on the same column or row, and distance between them equals 1"""
         sum_score = 0
         if abs(row1 - row2) + abs(col1 - col2) == 1:
@@ -29,14 +27,12 @@ class Game:
 
         if sum_score == 0:
             Game.swap(row1, col1, row2, col2, self.arr)
-            return False
+            return 0
         else:
-            self._score += sum_score
-            self.__update_arr()
-            return True
+            return sum_score + self.__update_arr()
 
-    def __update_arr(self) -> [[]]:
-        """update array of numbers"""
+    def __update_arr(self) -> int:
+        """update array of numbers, return the score of updating values"""
         cur_score = 1
         sum_score = 0
         while cur_score != 0:
@@ -63,7 +59,7 @@ class Game:
                 if size >= 3:
                     for clear_index in range(iterate_index - 1, iterate_index - size - 1, -1):
                         self.__clear_element(isRow, cur_index, clear_index)
-                    sum_score += self.score_values[size]
+                    sum_score += self.__score_values[size]
                 if iterate_index < len(arr):
                     prev = Game.element(isRow, cur_index, iterate_index, arr)
                 size = 0

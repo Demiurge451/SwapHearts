@@ -1,7 +1,5 @@
 from random import randint
 
-from PyQt5 import QtCore
-
 
 class Game:
 
@@ -36,48 +34,48 @@ class Game:
         cur_score = 1
         sum_score = 0
         while cur_score != 0:
-            cur_score = self.__delete_duplicates(False, self.arr) + self.__delete_duplicates(True, self.arr)
+            cur_score = self.__delete_duplicates(False) + self.__delete_duplicates(True)
             sum_score += cur_score
             for col in range(len(self.arr[0])):
                 self.__fill_empty_cell(col, self.arr)
 
         return sum_score
 
-    def __delete_duplicates(self, isRow: bool, arr: [[]]) -> int:
+    def __delete_duplicates(self, is_row: bool) -> int:
         """delete duplicates in rows or columns, accumulate score"""
         sum_score = 0
-        for cur_index in range(len(arr[0])):
+        for cur_index in range(len(self.arr[0])):
             iterate_index = 0
-            prev = Game.element(isRow, cur_index, iterate_index, arr)
+            prev = Game.element(is_row, cur_index, iterate_index, self.arr)
             size = 0
-            while iterate_index < len(arr):
-                while iterate_index < len(arr) and Game.element(isRow, cur_index, iterate_index, arr) == prev:
+            while iterate_index < len(self.arr):
+                while iterate_index < len(self.arr) and \
+                        Game.element(is_row, cur_index, iterate_index, self.arr) == prev:
                     size += 1
-                    prev = Game.element(isRow, cur_index, iterate_index, arr)
+                    prev = Game.element(is_row, cur_index, iterate_index, self.arr)
                     iterate_index += 1
 
                 if size >= 3:
                     for clear_index in range(iterate_index - 1, iterate_index - size - 1, -1):
-                        self.__clear_element(isRow, cur_index, clear_index)
+                        self.__clear_element(is_row, cur_index, clear_index)
                     sum_score += self.__score_values[size]
-                if iterate_index < len(arr):
-                    prev = Game.element(isRow, cur_index, iterate_index, arr)
+                if iterate_index < len(self.arr):
+                    prev = Game.element(is_row, cur_index, iterate_index, self.arr)
                 size = 0
         return sum_score
 
-    def __clear_element(self, isRow: bool, curIndex: int, iterate_index: int):
+    def __clear_element(self, is_row: bool, cur_index: int, iterate_index: int):
         """replace elements with zeros"""
-        if isRow:
-            self.arr[curIndex][iterate_index] = 0
+        if is_row:
+            self.arr[cur_index][iterate_index] = 0
         else:
-            self.arr[iterate_index][curIndex] = 0
+            self.arr[iterate_index][cur_index] = 0
 
     @staticmethod
-    def element(isRow: bool, cur_index: int, iterate_index: int, arr: [[]]):
+    def element(is_row: bool, cur_index: int, iterate_index: int, arr: [[]]):
         """return the current element on row or column"""
-        return arr[cur_index][iterate_index] if isRow else arr[iterate_index][cur_index]
+        return arr[cur_index][iterate_index] if is_row else arr[iterate_index][cur_index]
 
-    # TODO add diapason
     def __fill_empty_cell(self, cur_index: int, arr: [[]]):
         """move empty cell to begin of column, and then reinitialize they with random values"""
         iterate_index = 0
@@ -89,7 +87,6 @@ class Game:
         for col in range(len(arr[0])):
             for row in range(len(arr)):
                 if arr[row][col] == 0:
-                    # diapason of random [1, 6]
                     arr[row][col] = randint(1, 6)
 
     @staticmethod

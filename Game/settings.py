@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QColorDialog, QSpinBox, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton, QColorDialog, QSpinBox, QHBoxLayout
 
 
 class SettingsWindow(QDialog):
@@ -54,5 +54,5 @@ class SettingsWindow(QDialog):
     def set_size_x(self, value):
         self.parent().resize(value, 0)
 
-    def set_size_y(self,value):
+    def set_size_y(self, value):
         self.parent().resize(0, value)

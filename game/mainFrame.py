@@ -3,9 +3,9 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QApplication, QToolBar, QLabel, \
     QSizePolicy, QHBoxLayout
 
-from Game.gameField import GameField
-from Game.instruction import InstructionsWindow
-from Game.settings import SettingsWindow
+from game.gameField import GameField
+from game.instruction import InstructionsWindow
+from game.settings import SettingsWindow
 
 
 class MainFrame(QMainWindow):
@@ -54,7 +54,7 @@ class MainFrame(QMainWindow):
         self.addToolBar(toolbar)
 
         header = QHBoxLayout()
-        self.new_game_button = MyButton("New Game")
+        self.new_game_button = MyButton("New game")
         self.new_game_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.new_game_button.setMaximumSize(200, 50)
 

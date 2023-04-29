@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton, QColorDialog, QSpinBox, QHBoxLayout
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton, QColorDialog, QSpinBox, QHBoxLayout, QApplication
 
 
 class SettingsWindow(QDialog):
@@ -14,11 +14,11 @@ class SettingsWindow(QDialog):
 
         self.width_label = QLabel("Width:")
         self.width_spinbox = QSpinBox()
-        self.width_spinbox.setRange(parent.width(), 1920)  # set minimum and maximum values for spinbox
-        self.width_spinbox.setSingleStep(10)  # set step size for spinbox
+        self.width_spinbox.setRange(parent.width(), QApplication.desktop().width())
+        self.width_spinbox.setSingleStep(10)
         self.height_label = QLabel("Height:")
         self.height_spinbox = QSpinBox()
-        self.height_spinbox.setRange(parent.height(), 1080)  # set minimum and maximum values for spinbox
+        self.height_spinbox.setRange(parent.height(), QApplication.desktop().height())
         self.height_spinbox.setSingleStep(10)
 
         width_layout = QHBoxLayout()
@@ -52,7 +52,7 @@ class SettingsWindow(QDialog):
             self.color_changed.emit(color)
 
     def set_size_x(self, value):
-        self.parent().resize(value, 0)
+        self.parent().resize(value, self.parent().height())
 
     def set_size_y(self, value):
-        self.parent().resize(0, value)
+        self.parent().resize(self.parent().width(), value)

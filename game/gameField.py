@@ -3,7 +3,7 @@ import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QPushButton, QLabel, QHBoxLayout, QSizePolicy, QGridLayout, QLayout
 
-from Game import logic
+from game import logic
 
 
 class GameField(QWidget):
@@ -12,7 +12,6 @@ class GameField(QWidget):
     def __init__(self):
         super().__init__()
         self.score = 0
-        self.settings_window = None
         self.game = logic.Game()
         self.grid = QGridLayout()
         self.grid.setSizeConstraint(QLayout.SetMinimumSize)
